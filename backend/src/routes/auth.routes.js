@@ -5,12 +5,14 @@ const authController = require('../controllers/auth.controller');
 const { authMiddleware } = require('../middlewares/auth.middleware');
 
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000,
   max: 10,
   message: { message: 'พยายามเข้าสู่ระบบบ่อยเกินไป กรุณาลองใหม่ภายหลัง' },
 });
 
 router.post('/login', loginLimiter, authController.login);
+router.post('/register', authController.register);
+router.patch('/change-password', authMiddleware, authController.changePassword);
 router.post('/logout', authController.logout);
 router.post('/refresh', authController.refresh);
 router.get('/me', authMiddleware, authController.me);
