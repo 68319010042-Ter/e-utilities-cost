@@ -59,7 +59,10 @@ services:
       - ter42-net
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: /api
     image: ${DOCKERHUB_USERNAME:-local}/e-utilities-cost-frontend:latest
     container_name: ter42-frontend
     restart: unless-stopped
