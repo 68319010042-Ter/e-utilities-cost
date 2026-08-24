@@ -1,6 +1,7 @@
 services:
   mariadb:
     image: mariadb:11
+    container_name: ter42-mariadb
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -9,8 +10,9 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mariadb_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
+    # ไม่ publish port ออกนอก - backend เรียกผ่าน network ภายในพอ (DB_HOST: mariadb)
+    networks:
+      - ter42-net
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -20,17 +22,21 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:latest
+    container_name: ter42-phpmyadmin
     restart: unless-stopped
     environment:
       PMA_HOST: mariadb
     ports:
-      - "8081:80"
+      - "30041:80"   # <- เช็คกับเพื่อนก่อนว่าพอร์ตนี้ว่างจริง (docker ps บน server)
     depends_on:
       - mariadb
+    networks:
+      - ter42-net
 
   backend:
     build: ./backend
     image: ${DOCKERHUB_USERNAME:-local}/e-utilities-cost-backend:latest
+    container_name: ter42-backend
     restart: unless-stopped
     environment:
       DB_HOST: mariadb
@@ -45,20 +51,29 @@ services:
       REFRESH_TOKEN_EXPIRES_IN: ${REFRESH_TOKEN_EXPIRES_IN}
       FRONTEND_ORIGIN: ${FRONTEND_ORIGIN}
       SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD}
-    ports:
-      - "3000:3000"
+    # ไม่ publish port ออกนอก - ถ้า frontend (nginx) proxy ไปหา backend ผ่าน network ภายในอยู่แล้ว ไม่จำเป็นต้องเปิด
     depends_on:
       mariadb:
         condition: service_healthy
+    networks:
+      - ter42-net
 
   frontend:
     build: ./frontend
     image: ${DOCKERHUB_USERNAME:-local}/e-utilities-cost-frontend:latest
+    container_name: ter42-frontend
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "30042:80"   # <- เช็คกับเพื่อนก่อนว่าพอร์ตนี้ว่างจริง (docker ps บน server)
     depends_on:
       - backend
+    networks:
+      - ter42-net
 
 volumes:
   mariadb_data:
+    name: ter42-mariadb-data
+
+networks:
+  ter42-net:
+    name: ter42-net
