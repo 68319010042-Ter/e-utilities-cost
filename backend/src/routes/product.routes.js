@@ -11,5 +11,12 @@ router.get('/:id', productController.get);
 router.post('/', authMiddleware, requireAdmin, productController.create);
 router.put('/:id', authMiddleware, requireAdmin, productController.update);
 router.delete('/:id', authMiddleware, requireAdmin, productController.remove);
+router.post(
+  '/upload',
+  authMiddleware,
+  requireAdmin,
+  upload.single('image'),
+  productController.uploadImage
+);
 
 module.exports = router;
