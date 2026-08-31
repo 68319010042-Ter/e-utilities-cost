@@ -23,6 +23,15 @@ export const useAuthStore = defineStore('auth', {
       return res.data;
     },
 
+    async register(username, password, full_name) {
+      const res = await axios.post(
+        `${baseURL}/auth/register`,
+        { username, password, full_name },
+        { withCredentials: true }
+      );
+      return res.data;
+    },
+
     async refreshAccessToken() {
       const res = await axios.post(
         `${baseURL}/auth/refresh`,
