@@ -13,10 +13,20 @@
 </template>
 
 <script setup>
-const menu = [
-  { name: 'dashboard', label: 'แดชบอร์ด', to: '/' },
-  { name: 'expenses', label: 'รายการ', to: '/expenses' },
-  { name: 'categories', label: 'หมวดหมู่', to: '/settings/categories' },
-  { name: 'reports', label: 'รายงาน', to: '/reports' },
-];
+import { useAuthStore } from '../../stores/auth';
+import { computed } from 'vue';
+
+const auth = useAuthStore();
+
+const menu = computed(() => {
+  const items = [
+    { name: 'shop', label: 'ร้านค้า', to: '/shop' },
+    { name: 'cart', label: 'ตะกร้า', to: '/cart' },
+    { name: 'orders', label: 'คำสั่งซื้อ', to: '/orders' },
+  ];
+  if (auth.user?.role === 'admin') {
+    items.push({ name: 'product-manage', label: 'จัดการ', to: '/settings/products' });
+  }
+  return items;
+});
 </script>

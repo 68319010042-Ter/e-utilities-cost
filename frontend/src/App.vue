@@ -26,5 +26,5 @@ import AppNavbar from './components/layout/AppNavbar.vue';
 import MobileMenu from './components/layout/MobileMenu.vue';
 
 const route = useRoute();
-const isAuthPage = computed(() => route.name === 'login');
+const isAuthPage = computed(() => route.name === 'login' || route.name === 'register');
 </script>
