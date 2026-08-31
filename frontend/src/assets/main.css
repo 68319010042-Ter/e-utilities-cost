@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn-primary:hover {
+  background-color: var(--color-primary-hover) !important;
+}
+
 :root {
   --color-primary: #0f172a;
   --color-primary-hover: #334155;

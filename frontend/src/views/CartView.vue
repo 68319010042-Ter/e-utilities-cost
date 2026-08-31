@@ -4,7 +4,7 @@
 
     <p v-if="cart.items.length === 0" class="text-slate-500">
       ยังไม่มีสินค้าในตะกร้า
-      <router-link :to="{ name: 'shop' }" class="text-slate-900 underline ml-2">
+      <router-link :to="{ name: 'shop' }" class="underline ml-2" :style="{ color: 'var(--color-primary)' }">
         กลับไปเลือกซื้อสินค้า
       </router-link>
     </p>
@@ -47,7 +47,8 @@
       <div class="flex items-center justify-between mt-6">
         <p class="text-lg font-bold">รวมทั้งหมด: {{ formatPrice(cart.totalAmount) }} บาท</p>
         <button
-          class="bg-slate-900 text-white px-6 py-2 rounded hover:bg-slate-700 transition disabled:opacity-50"
+          class="px-6 py-2 rounded transition disabled:opacity-50"
+          :style="{ backgroundColor: 'var(--color-primary)', color: 'var(--color-on-primary)' }"
           :disabled="submitting"
           @click="checkout"
         >

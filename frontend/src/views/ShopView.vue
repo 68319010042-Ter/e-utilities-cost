@@ -4,12 +4,15 @@
       <h1 class="text-2xl font-bold">อุปกรณ์ซ่อมแซม BB Gun</h1>
       <router-link
         :to="{ name: 'cart' }"
-        class="relative bg-slate-900 text-white px-4 py-2 rounded hover:bg-slate-700 transition"
+        class="relative px-4 py-2 rounded transition"
+        :style="{ backgroundColor: 'var(--color-primary)', color: 'var(--color-on-primary)' }"
+        @mouseenter="hover = true"
+        @mouseleave="hover = false"
       >
         ตะกร้า
         <span
           v-if="cart.totalItems > 0"
-          class="absolute -top-2 -right-2 bg-red-600 text-xs rounded-full w-5 h-5 flex items-center justify-center"
+          class="absolute -top-2 -right-2 bg-red-600 text-xs rounded-full w-5 h-5 flex items-center justify-center text-white"
         >
           {{ cart.totalItems }}
         </span>
@@ -24,7 +27,8 @@
       <div
         v-for="product in products"
         :key="product.id"
-        class="border rounded-lg p-4 flex flex-col bg-white shadow-sm"
+        class="border rounded-lg p-4 flex flex-col shadow-sm"
+        :style="{ backgroundColor: 'var(--color-surface)' }"
       >
         <img
           v-if="product.image_path"
@@ -44,7 +48,8 @@
         </p>
 
         <button
-          class="mt-auto bg-slate-900 text-white rounded py-2 hover:bg-slate-700 transition disabled:opacity-40 disabled:cursor-not-allowed"
+          class="mt-auto rounded py-2 transition disabled:opacity-40 disabled:cursor-not-allowed"
+          :style="{ backgroundColor: 'var(--color-primary)', color: 'var(--color-on-primary)' }"
           :disabled="product.stock === 0"
           @click="cart.addItem(product)"
         >
@@ -64,6 +69,7 @@ const products = ref([]);
 const loading = ref(true);
 const error = ref('');
 const cart = useCartStore();
+const hover = ref(false);
 
 function formatPrice(value) {
   return Number(value).toLocaleString('th-TH', { minimumFractionDigits: 2 });

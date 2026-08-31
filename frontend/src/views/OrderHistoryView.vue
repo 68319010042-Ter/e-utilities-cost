@@ -5,13 +5,18 @@
     <p v-if="loading" class="text-slate-500">กำลังโหลด...</p>
     <p v-else-if="orders.length === 0" class="text-slate-500">
       ยังไม่มีคำสั่งซื้อ
-      <router-link :to="{ name: 'shop' }" class="text-slate-900 underline ml-2">
+      <router-link :to="{ name: 'shop' }" class="underline ml-2" :style="{ color: 'var(--color-primary)' }">
         ไปเลือกซื้อสินค้า
       </router-link>
     </p>
 
     <div v-else class="space-y-4">
-      <div v-for="order in orders" :key="order.id" class="border rounded-lg p-4 bg-white shadow-sm">
+      <div
+        v-for="order in orders"
+        :key="order.id"
+        class="border rounded-lg p-4 shadow-sm"
+        :style="{ backgroundColor: 'var(--color-surface)' }"
+      >
         <div class="flex items-center justify-between mb-2">
           <p class="font-semibold">คำสั่งซื้อ #{{ order.id }}</p>
           <span class="text-sm px-2 py-1 rounded" :class="statusClass(order.status)">

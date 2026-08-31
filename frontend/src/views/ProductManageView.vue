@@ -2,7 +2,11 @@
   <div class="max-w-5xl mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6">จัดการสินค้า</h1>
 
-    <form class="bg-white border rounded-lg p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3" @submit.prevent="submitForm">
+    <form
+      class="border rounded-lg p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3"
+      :style="{ backgroundColor: 'var(--color-surface)' }"
+      @submit.prevent="submitForm"
+    >
       <input v-model="form.name" placeholder="ชื่อสินค้า" class="border rounded px-3 py-2" required />
       <input v-model.number="form.price" type="number" step="0.01" min="0" placeholder="ราคา" class="border rounded px-3 py-2" required />
       <input v-model.number="form.stock" type="number" min="0" placeholder="จำนวนคงเหลือ" class="border rounded px-3 py-2" />
@@ -29,7 +33,11 @@
       </label>
 
       <div class="sm:col-span-2 flex gap-2">
-        <button type="submit" class="bg-slate-900 text-white px-4 py-2 rounded hover:bg-slate-700 transition">
+        <button
+          type="submit"
+          class="px-4 py-2 rounded transition"
+          :style="{ backgroundColor: 'var(--color-primary)', color: 'var(--color-on-primary)' }"
+        >
           {{ editingId ? 'บันทึกการแก้ไข' : 'เพิ่มสินค้า' }}
         </button>
         <button v-if="editingId" type="button" class="border px-4 py-2 rounded" @click="resetForm">
