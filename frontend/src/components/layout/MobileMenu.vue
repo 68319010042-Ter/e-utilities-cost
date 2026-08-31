@@ -1,32 +1,21 @@
 <template>
-  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 z-10">
-    <router-link
-      v-for="item in menu"
-      :key="item.name"
-      :to="item.to"
-      class="flex flex-col items-center text-xs text-slate-500"
-      active-class="text-slate-900 font-semibold"
-    >
-      {{ item.label }}
-    </router-link>
-  </nav>
+  <header class="border-b px-4 py-3 flex items-center justify-between" :style="{ backgroundColor: 'var(--color-surface)' }">
+    <span class="font-medium text-slate-700">{{ auth.user?.full_name || auth.user?.username }}</span>
+    <button class="text-sm text-red-600 hover:underline" @click="handleLogout">
+      ออกจากระบบ
+    </button>
+  </header>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../stores/auth';
-import { computed } from 'vue';
 
 const auth = useAuthStore();
+const router = useRouter();
 
-const menu = computed(() => {
-  const items = [
-    { name: 'shop', label: 'ร้านค้า', to: '/shop' },
-    { name: 'cart', label: 'ตะกร้า', to: '/cart' },
-    { name: 'orders', label: 'คำสั่งซื้อ', to: '/orders' },
-  ];
-  if (auth.user?.role === 'admin') {
-    items.push({ name: 'product-manage', label: 'จัดการ', to: '/settings/products' });
-  }
-  return items;
-});
+async function handleLogout() {
+  await auth.logout();
+  router.push({ name: 'login' });
+}
 </script>

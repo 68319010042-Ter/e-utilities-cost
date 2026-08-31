@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-primary: #0f172a;
+  --color-primary-hover: #334155;
+  --color-on-primary: #ffffff;
+  --color-sidebar: #0f172a;
+  --color-sidebar-hover: #334155;
+  --color-sidebar-text: #f1f5f9;
+  --color-app-bg: #f1f5f9;
+  --color-surface: #ffffff;
+}

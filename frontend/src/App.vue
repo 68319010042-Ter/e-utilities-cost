@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen" :style="{ backgroundColor: 'var(--color-app-bg)' }">
     <template v-if="isAuthPage">
       <router-view />
     </template>
@@ -15,16 +15,22 @@
         </div>
       </div>
     </template>
+    <ThemePicker />
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import AppSidebar from './components/layout/AppSidebar.vue';
 import AppNavbar from './components/layout/AppNavbar.vue';
 import MobileMenu from './components/layout/MobileMenu.vue';
+import ThemePicker from './components/layout/ThemePicker.vue';
+import { useThemeStore } from './stores/theme';
 
 const route = useRoute();
 const isAuthPage = computed(() => route.name === 'login' || route.name === 'register');
+
+const theme = useThemeStore();
+onMounted(() => theme.initTheme());
 </script>
