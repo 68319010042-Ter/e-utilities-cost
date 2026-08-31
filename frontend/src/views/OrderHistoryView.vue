@@ -102,11 +102,11 @@ async function loadOrders() {
 async function updateStatus(order, newStatus) {
   orderError[order.id] = '';
   const prevStatus = order.status;
-  order.status = newStatus; // optimistic update
+  order.status = newStatus;
   try {
-    await api.put(`/orders/${order.id}`, { status: newStatus });
+    await api.patch(`/orders/${order.id}/status`, { status: newStatus });
   } catch (err) {
-    order.status = prevStatus; // revert เมื่อ error
+    order.status = prevStatus;
     orderError[order.id] = err.response?.data?.message || 'อัปเดตสถานะไม่สำเร็จ';
   }
 }

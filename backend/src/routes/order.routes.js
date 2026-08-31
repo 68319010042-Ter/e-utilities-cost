@@ -8,5 +8,6 @@ router.post('/', authMiddleware, orderController.create);
 router.get('/', authMiddleware, orderController.list);
 router.get('/:id', authMiddleware, orderController.get);
 router.patch('/:id/status', authMiddleware, requireAdmin, orderController.updateStatus);
+router.delete('/:id', authMiddleware, requireAdmin, orderController.remove); // เพิ่มบรรทัดนี้
 
 module.exports = router;

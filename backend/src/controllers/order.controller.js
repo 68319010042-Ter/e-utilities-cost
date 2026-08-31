@@ -107,4 +107,25 @@ exports.updateStatus = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+
+  // admin ลบคำสั่งซื้อ
+exports.remove = async (req, res, next) => {
+  const t = await sequelize.transaction();
+  try {
+    const order = await Order.findByPk(req.params.id, { transaction: t });
+    if (!order) {
+      await t.rollback();
+      return res.status(404).json({ message: 'ไม่พบคำสั่งซื้อ' });
+    }
+
+    await OrderItem.destroy({ where: { order_id: order.id }, transaction: t });
+    await order.destroy({ transaction: t });
+
+    await t.commit();
+    res.json({ message: 'ลบคำสั่งซื้อเรียบร้อย' });
+  } catch (err) {
+    await t.rollback();
+    next(err);
+  }
+};
 };
