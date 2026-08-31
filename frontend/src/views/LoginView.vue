@@ -30,6 +30,13 @@
         :disabled="loading"
       >
         {{ loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ' }}
+        
+        <p class="text-sm text-center mt-4">
+          ยังไม่มีบัญชี?
+        <router-link :to="{ name: 'register' }" class="text-slate-900 underline">
+          สมัครสมาชิก
+        </router-link>
+        </p>
       </button>
     </form>
   </div>
