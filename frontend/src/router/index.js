@@ -41,6 +41,23 @@ const routes = [
     component: () => import('../views/ReportHistoryView.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: '/shop',
+    name: 'shop',
+    component: () => import('../views/ShopView.vue'),
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import('../views/CartView.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/settings/products',
+    name: 'product-manage',
+    component: () => import('../views/ProductManageView.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({
