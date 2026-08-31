@@ -30,14 +30,14 @@
         :disabled="loading"
       >
         {{ loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ' }}
-        
-        <p class="text-sm text-center mt-4">
-          ยังไม่มีบัญชี?
+      </button>
+
+      <p class="text-sm text-center mt-4">
+        ยังไม่มีบัญชี?
         <router-link :to="{ name: 'register' }" class="text-slate-900 underline">
           สมัครสมาชิก
         </router-link>
-        </p>
-      </button>
+      </p>
     </form>
   </div>
 </template>
@@ -60,7 +60,7 @@ async function handleSubmit() {
   loading.value = true;
   try {
     await auth.login(username.value, password.value);
-    router.push({ name: 'dashboard' });
+    router.push({ name: 'shop' });
   } catch (err) {
     error.value = err.response?.data?.message || 'เข้าสู่ระบบไม่สำเร็จ';
   } finally {
