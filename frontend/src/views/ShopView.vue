@@ -27,8 +27,7 @@
       <div
         v-for="product in products"
         :key="product.id"
-        class="border rounded-lg p-4 flex flex-col shadow-sm"
-        :style="{ backgroundColor: 'var(--color-surface)' }"
+        class="border rounded-xl p-4 flex flex-col card-surface"
       >
         <img
           v-if="product.image_path"
