@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const path = require('path');
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth.routes');
@@ -11,7 +12,11 @@ const { notFoundHandler, errorHandler } = require('./middlewares/error.middlewar
 
 const app = express();
 
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' }, // ให้ nginx โหลดรูปข้าม origin ได้
+  })
+);
 app.use(
   cors({
     origin: process.env.FRONTEND_ORIGIN || 'http://localhost:8080',
@@ -20,6 +25,8 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 

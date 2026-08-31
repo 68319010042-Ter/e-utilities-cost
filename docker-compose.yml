@@ -10,7 +10,6 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mariadb_data:/var/lib/mysql
-    # ไม่ publish port ออกนอก - backend เรียกผ่าน network ภายในพอ (DB_HOST: mariadb)
     networks:
       - ter42-net
     healthcheck:
@@ -27,7 +26,7 @@ services:
     environment:
       PMA_HOST: mariadb
     ports:
-      - "30041:80"   # <- เช็คกับเพื่อนก่อนว่าพอร์ตนี้ว่างจริง (docker ps บน server)
+      - "30041:80"
     depends_on:
       - mariadb
     networks:
@@ -51,7 +50,8 @@ services:
       REFRESH_TOKEN_EXPIRES_IN: ${REFRESH_TOKEN_EXPIRES_IN}
       FRONTEND_ORIGIN: ${FRONTEND_ORIGIN}
       SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD}
-    # ไม่ publish port ออกนอก - ถ้า frontend (nginx) proxy ไปหา backend ผ่าน network ภายในอยู่แล้ว ไม่จำเป็นต้องเปิด
+    volumes:
+      - ter42-product-images:/app/src/uploads
     depends_on:
       mariadb:
         condition: service_healthy
@@ -67,7 +67,7 @@ services:
     container_name: ter42-frontend
     restart: unless-stopped
     ports:
-      - "30042:80"   # <- เช็คกับเพื่อนก่อนว่าพอร์ตนี้ว่างจริง (docker ps บน server)
+      - "30042:80"
     depends_on:
       - backend
     networks:
@@ -76,6 +76,8 @@ services:
 volumes:
   mariadb_data:
     name: ter42-mariadb-data
+  ter42-product-images:
+    name: ter42-product-images
 
 networks:
   ter42-net:

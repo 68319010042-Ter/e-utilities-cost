@@ -6,7 +6,21 @@
       <input v-model="form.name" placeholder="ชื่อสินค้า" class="border rounded px-3 py-2" required />
       <input v-model.number="form.price" type="number" step="0.01" min="0" placeholder="ราคา" class="border rounded px-3 py-2" required />
       <input v-model.number="form.stock" type="number" min="0" placeholder="จำนวนคงเหลือ" class="border rounded px-3 py-2" />
-      <input v-model="form.image_path" placeholder="URL รูปภาพ" class="border rounded px-3 py-2" />
+
+      <div class="flex flex-col gap-1">
+        <label class="text-sm text-slate-500">อัปโหลดรูปภาพ (หรือใส่ URL ด้านล่าง)</label>
+        <input type="file" accept="image/*" class="border rounded px-3 py-2" @change="handleFileChange" />
+        <p v-if="uploading" class="text-xs text-slate-500">กำลังอัปโหลด...</p>
+      </div>
+
+      <input v-model="form.image_path" placeholder="หรือใส่ URL รูปภาพ" class="border rounded px-3 py-2" />
+
+      <img
+        v-if="form.image_path"
+        :src="form.image_path"
+        class="w-24 h-24 object-cover rounded border sm:col-span-2"
+      />
+
       <textarea v-model="form.description" placeholder="รายละเอียดสินค้า" class="border rounded px-3 py-2 sm:col-span-2" rows="2"></textarea>
 
       <label class="flex items-center gap-2 text-sm">
@@ -63,6 +77,7 @@ import api from '../services/api';
 const products = ref([]);
 const error = ref('');
 const editingId = ref(null);
+const uploading = ref(false);
 
 const form = reactive({
   name: '',
@@ -90,6 +105,26 @@ function resetForm() {
 async function loadProducts() {
   const res = await api.get('/products');
   products.value = res.data;
+}
+
+async function handleFileChange(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  uploading.value = true;
+  error.value = '';
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+    const res = await api.post('/products/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    form.image_path = res.data.path;
+  } catch (err) {
+    error.value = err.response?.data?.message || 'อัปโหลดรูปไม่สำเร็จ';
+  } finally {
+    uploading.value = false;
+  }
 }
 
 function editProduct(p) {

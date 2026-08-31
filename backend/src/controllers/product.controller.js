@@ -69,3 +69,14 @@ exports.remove = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.uploadImage = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'กรุณาเลือกไฟล์รูปภาพ' });
+    }
+    res.json({ path: `/uploads/${req.file.filename}` });
+  } catch (err) {
+    next(err);
+  }
+};
