@@ -72,6 +72,7 @@ function applyToDom(name) {
   root.style.setProperty('--color-sidebar-hover', p.sidebarHover);
   root.style.setProperty('--color-sidebar-text', p.sidebarText);
   root.style.setProperty('--color-app-bg', p.appBg);
+  root.style.setProperty('--color-app-bg-soft', p.appBgSoft);
   root.style.setProperty('--color-surface', p.surface);
 }
 
@@ -92,5 +93,42 @@ export const useThemeStore = defineStore('theme', {
     initTheme() {
       applyToDom(this.current);
     },
+
+    classic: {
+  label: 'คลาสสิก',
+  primary: '#0f172a',
+  primaryHover: '#334155',
+  onPrimary: '#ffffff',
+  sidebar: '#0f172a',
+  sidebarHover: '#334155',
+  sidebarText: '#f1f5f9',
+  appBg: '#f1f5f9',
+  appBgSoft: '#e2e8f0',
+  surface: '#ffffff',
+},
+tactical: {
+  // ...
+  appBg: '#f5f5f5',
+  appBgSoft: '#e5e5e5',
+  surface: '#ffffff',
+},
+ocean: {
+  // ...
+  appBg: '#eff6ff',
+  appBgSoft: '#dbeafe',
+  surface: '#ffffff',
+},
+forest: {
+  // ...
+  appBg: '#f0fdf4',
+  appBgSoft: '#dcfce7',
+  surface: '#ffffff',
+},
+royal: {
+  // ...
+  appBg: '#faf5ff',
+  appBgSoft: '#f3e8ff',
+  surface: '#ffffff',
+},
   },
 });

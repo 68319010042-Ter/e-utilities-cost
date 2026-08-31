@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-white border-b px-4 py-3 flex items-center justify-between">
+  <header class="border-b px-4 py-3 flex items-center justify-between sticky top-0 z-20 navbar-elevated">
     <span class="font-medium text-slate-700">{{ auth.user?.full_name || auth.user?.username }}</span>
     <button
       class="text-sm text-red-600 hover:underline"

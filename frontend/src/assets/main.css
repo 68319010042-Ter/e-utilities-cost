@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.btn-primary:hover {
-  background-color: var(--color-primary-hover) !important;
-}
-
 :root {
   --color-primary: #0f172a;
   --color-primary-hover: #334155;
@@ -14,5 +10,28 @@
   --color-sidebar-hover: #334155;
   --color-sidebar-text: #f1f5f9;
   --color-app-bg: #f1f5f9;
+  --color-app-bg-soft: #e2e8f0;
   --color-surface: #ffffff;
+}
+
+body {
+  background: linear-gradient(180deg, var(--color-app-bg) 0%, var(--color-app-bg-soft) 100%);
+  min-height: 100vh;
+}
+
+.card-surface {
+  background-color: var(--color-surface);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card-surface:hover {
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.06), 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.navbar-elevated {
+  background-color: var(--color-surface);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  backdrop-filter: blur(6px);
 }
